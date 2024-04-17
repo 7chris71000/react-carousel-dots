@@ -748,8 +748,8 @@ ReactCarouselDots.defaultProps = {
   onClick: function onClick() {},
   dotStyle: {},
   activeStyle: {},
-  dotHolderHeight: 0,
-  dotHolderWidth: 0,
+  dotHolderHeight: 16,
+  dotHolderWidth: 16,
   removeSmallDots: false
 };
 exports.default = ReactCarouselDots;
