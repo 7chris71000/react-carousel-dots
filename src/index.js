@@ -24,8 +24,8 @@ class ReactCarouselDots extends React.Component {
     onClick: () => {},
     dotStyle: {},
     activeStyle: {},
-    dotHolderHeight: 0,
-    dotHolderWidth: 0,
+    dotHolderHeight: 16,
+    dotHolderWidth: 16,
     removeSmallDots: false,
   }
   constructor(props) {
