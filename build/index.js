@@ -422,80 +422,124 @@ var ReactCarouselDots = function (_React$Component) {
     var _this = _possibleConstructorReturn(this, (ReactCarouselDots.__proto__ || Object.getPrototypeOf(ReactCarouselDots)).call(this, props));
 
     _this.componentWillReceiveProps = function (nextProps) {
+      var active = _this.props.active;
+      var _this$state = _this.state,
+          directionState = _this$state.direction,
+          changed = _this$state.changed,
+          changeCount = _this$state.changeCount;
+
       var newBigDots = [];
-      if (nextProps.active > _this.props.active) {
+
+      var direction = directionState;
+      if (nextProps.active !== active) {
+        direction = nextProps.active > active ? 'forwards' : 'backwards';
+      }
+
+      if (nextProps.active > active) {
         // Forwards
         if (nextProps.length - 3 < nextProps.active) {
-          _this.setState({ translate: (nextProps.length - (nextProps.visible + 1)) * (nextProps.dotHolderWidth + 2 * nextProps.margin) });
+          _this.setState({
+            translate: (nextProps.length - (nextProps.visible + 1)) * (nextProps.dotHolderWidth + 2 * nextProps.margin)
+          });
         }
-        if (_this.state.direction === 'forwards') {
+        if (direction === 'forwards') {
           // Dir doesnt change
-          if (_this.state.changed) {
+          if (changed) {
             // If there was a recent change increment the counter
-            if (_this.state.changeCount >= nextProps.visible - 4 - nextProps.visible % 2) {
+            if (changeCount >= nextProps.visible - 4 - nextProps.visible % 2) {
               // If we reached the limit, remove the changed
               newBigDots = _this.getNewBigDots(nextProps, false);
               _this.setState({
-                bigDots: newBigDots, direction: 'forwards', changed: false, changeCount: 0
+                bigDots: newBigDots,
+                direction: 'forwards',
+                changed: false,
+                changeCount: 0
               });
             } else {
               // Else increment the counter
               newBigDots = _this.getNewBigDots(nextProps, true);
               _this.setState({
-                bigDots: newBigDots, direction: 'forwards', changed: true, changeCount: _this.state.changeCount + 1
+                bigDots: newBigDots,
+                direction: 'forwards',
+                changed: true,
+                changeCount: changeCount + 1
               });
             }
           } else {
             // Simply set the direction and the transform
             newBigDots = _this.getNewBigDots(nextProps, false);
 
-            _this.setState({ bigDots: newBigDots, translate: (nextProps.active - (nextProps.visible - 2)) * (nextProps.dotHolderWidth + 2 * nextProps.margin), direction: 'forwards' });
+            _this.setState({
+              bigDots: newBigDots,
+              translate: (nextProps.active - (nextProps.visible - 2)) * (nextProps.dotHolderWidth + 2 * nextProps.margin),
+              direction: 'forwards'
+            });
           }
-        } else if (_this.state.direction === 'backwards') {
+        } else if (direction === 'backwards') {
           // Change happened in the direction
           if (nextProps.visible > 4) {
             newBigDots = _this.getNewBigDots(nextProps, true);
             _this.setState({
-              bigDots: newBigDots, direction: 'forwards', changed: true, changeCount: _this.state.changeCount + 1
+              bigDots: newBigDots,
+              direction: 'forwards',
+              changed: true,
+              changeCount: changeCount + 1
             });
           } else {
             newBigDots = _this.getNewBigDots(nextProps, false);
             _this.setState({ bigDots: newBigDots, direction: 'forwards' });
           }
         }
-      } else if (nextProps.active < _this.props.active) {
+      } else if (nextProps.active < active) {
         // Backwards
         if (nextProps.length - nextProps.visible < nextProps.active) {
-          _this.setState({ bigDots: newBigDots, translate: (nextProps.length - (nextProps.visible + 1)) * (nextProps.dotHolderWidth + 2 * nextProps.margin) });
+          _this.setState({
+            bigDots: newBigDots,
+            translate: (nextProps.length - (nextProps.visible + 1)) * (nextProps.dotHolderWidth + 2 * nextProps.margin)
+          });
         }
-        if (_this.state.direction === 'backwards') {
+        if (direction === 'backwards') {
           // Dir doesnt change
-          if (_this.state.changed) {
+          if (changed) {
             // If there was a recent change increment the counter
-            if (_this.state.changeCount >= nextProps.visible - 4 - nextProps.visible % 2) {
+            if (changeCount >= nextProps.visible - 4 - nextProps.visible % 2) {
               // If we reached the limit, remove the changed
               newBigDots = _this.getNewBigDots(nextProps, false);
               _this.setState({
-                bigDots: newBigDots, direction: 'backwards', changed: false, changeCount: 0
+                bigDots: newBigDots,
+                direction: 'backwards',
+                changed: false,
+                changeCount: 0
               });
             } else {
               // Else increment the counter
               newBigDots = _this.getNewBigDots(nextProps, true);
               _this.setState({
-                bigDots: newBigDots, direction: 'backwards', changed: true, changeCount: _this.state.changeCount + 1
+                bigDots: newBigDots,
+                direction: 'backwards',
+                changed: true,
+                changeCount: changeCount + 1
               });
             }
           } else {
             // Simply set the direction and the transform
             newBigDots = _this.getNewBigDots(nextProps, false);
-            _this.setState({ bigDots: newBigDots, translate: (nextProps.active - 2) * (nextProps.dotHolderWidth + 2 * nextProps.margin), direction: 'backwards' });
+
+            _this.setState({
+              bigDots: newBigDots,
+              translate: (nextProps.active - 2) * (nextProps.dotHolderWidth + 2 * nextProps.margin),
+              direction: 'backwards'
+            });
           }
-        } else if (_this.state.direction === 'forwards') {
+        } else if (direction === 'forwards') {
           // Change happened in the direction
           if (nextProps.visible > 4) {
             newBigDots = _this.getNewBigDots(nextProps, true);
             _this.setState({
-              bigDots: newBigDots, direction: 'backwards', changed: true, changeCount: _this.state.changeCount + 1
+              bigDots: newBigDots,
+              direction: 'backwards',
+              changed: true,
+              changeCount: changeCount + 1
             });
           } else {
             newBigDots = _this.getNewBigDots(nextProps, false);
@@ -506,19 +550,26 @@ var ReactCarouselDots = function (_React$Component) {
     };
 
     _this.getNewBigDots = function (nextProps, changed) {
+      var active = _this.props.active;
+
+      var _ref = _this.state || {},
+          bigDots = _ref.bigDots;
+
       var newBigDots = [];
-      if (nextProps.active >= _this.props.active) {
+      if (nextProps.active >= active) {
         if (nextProps.visible % 2 === 1) {
           if (nextProps.active < nextProps.visible - 2) {
             var visibleDots = nextProps.visible - 1;
             if (nextProps.removeSmallDots) {
               visibleDots += 1;
             }
-            for (var j = 0; j < visibleDots; j += 1) {
+
+            for (var j = 0; j < visibleDots + 1; j += 1) {
               newBigDots.push(j);
             }
           } else if (nextProps.active === nextProps.visible - 2) {
-            for (var _j = 0; _j < nextProps.visible; _j += 1) {
+            var _j = 0;
+            for (_j = 0; _j < nextProps.visible; _j += 1) {
               newBigDots.push(_j);
             }
           } else if (nextProps.length - 4 < nextProps.active) {
@@ -530,13 +581,14 @@ var ReactCarouselDots = function (_React$Component) {
               newBigDots.push(_j3);
             }
           } else {
-            newBigDots = _this.state.bigDots;
+            newBigDots = bigDots;
           }
         } else if (nextProps.active < nextProps.visible - 2) {
           var _visibleDots = nextProps.visible - 1;
           if (nextProps.removeSmallDots) {
             _visibleDots += 1;
           }
+
           for (var _j4 = 0; _j4 < _visibleDots; _j4 += 1) {
             newBigDots.push(_j4);
           }
@@ -553,7 +605,7 @@ var ReactCarouselDots = function (_React$Component) {
             newBigDots.push(_j7);
           }
         } else {
-          newBigDots = _this.state.bigDots;
+          newBigDots = bigDots;
         }
       } else if (nextProps.visible % 2 === 1) {
         if (nextProps.active < nextProps.visible - (nextProps.visible - 3)) {
@@ -561,7 +613,8 @@ var ReactCarouselDots = function (_React$Component) {
           if (nextProps.removeSmallDots) {
             _visibleDots2 += 1;
           }
-          for (var _j8 = 0; _j8 < _visibleDots2; _j8 += 1) {
+
+          for (var _j8 = 0; _j8 <= _visibleDots2; _j8 += 1) {
             newBigDots.push(_j8);
           }
         } else if (nextProps.length - nextProps.visible < nextProps.active) {
@@ -573,13 +626,14 @@ var ReactCarouselDots = function (_React$Component) {
             newBigDots.push(_j10);
           }
         } else {
-          newBigDots = _this.state.bigDots;
+          newBigDots = bigDots;
         }
       } else if (nextProps.active < 3) {
         var _visibleDots3 = nextProps.visible - 1;
         if (nextProps.removeSmallDots) {
           _visibleDots3 += 1;
         }
+
         for (var _j11 = 0; _j11 < _visibleDots3; _j11 += 1) {
           newBigDots.push(_j11);
         }
@@ -592,80 +646,86 @@ var ReactCarouselDots = function (_React$Component) {
           newBigDots.push(_j13);
         }
       } else {
-        newBigDots = _this.state.bigDots;
+        newBigDots = bigDots;
       }
 
       return newBigDots;
     };
 
     _this.getDotStyle = function () {
+      var _this$props = _this.props,
+          active = _this$props.active,
+          dotHolderHeight = _this$props.dotHolderHeight,
+          dotHolderWidth = _this$props.dotHolderWidth,
+          margin = _this$props.margin,
+          length = _this$props.length,
+          visible = _this$props.visible;
+      var _this$state2 = _this.state,
+          changed = _this$state2.changed,
+          direction = _this$state2.direction,
+          translate = _this$state2.translate;
+
+
       var style = {
-        height: _this.props.dotHolderHeight,
-        width: _this.props.dotHolderWidth,
-        marginRight: _this.props.margin,
-        marginLeft: _this.props.margin
+        height: dotHolderHeight,
+        width: dotHolderWidth,
+        marginRight: margin,
+        marginLeft: margin
       };
-      if (_this.state.direction === 'forwards') {
-        if (_this.props.active < _this.props.visible - 2) {
+
+      if (direction === 'forwards') {
+        if (active < visible - 2) {
           style = _extends({}, style);
-        } else if (_this.props.length - 3 < _this.props.active) {
+        } else if (length - 3 < active) {
           style = _extends({}, style, {
-            transform: 'translateX(-' + (_this.props.length - (_this.props.visible + 1)) * (_this.props.dotHolderWidth + 2 * _this.props.margin) + 'px)'
+            transform: 'translateX(-' + (length - (visible + 1)) * (dotHolderWidth + 2 * margin) + 'px)'
           });
-        } else if (!_this.state.changed) {
+        } else if (!changed) {
           style = _extends({}, style, {
-            transform: 'translateX(-' + (_this.props.active - (_this.props.visible - 2)) * (_this.props.dotHolderWidth + 2 * _this.props.margin) + 'px)'
+            transform: 'translateX(-' + (active - (visible - 2)) * (dotHolderWidth + 2 * margin) + 'px)'
           });
         } else {
           style = _extends({}, style, {
-            transform: 'translateX(-' + _this.state.translate + 'px)'
+            transform: 'translateX(-' + translate + 'px)'
           });
         }
-      } else if (_this.props.active < 2) {
+      } else if (active < 2) {
         style = _extends({}, style);
-      } else if (_this.props.length - _this.props.visible < _this.props.active) {
+      } else if (length - visible < active) {
         style = _extends({}, style, {
-          transform: 'translateX(-' + (_this.props.length - (_this.props.visible + 1)) * (_this.props.dotHolderWidth + 2 * _this.props.margin) + 'px)'
+          transform: 'translateX(-' + (length - (visible + 1)) * (dotHolderWidth + 2 * margin) + 'px)'
         });
-      } else if (!_this.state.changed) {
+      } else if (!changed) {
         style = _extends({}, style, {
-          transform: 'translateX(-' + (_this.props.active - 2) * (_this.props.dotHolderWidth + 2 * _this.props.margin) + 'px)'
+          transform: 'translateX(-' + (active - 2) * (dotHolderWidth + 2 * margin) + 'px)'
         });
       } else {
         style = _extends({}, style, {
-          transform: 'translateX(-' + _this.state.translate + 'px)'
+          transform: 'translateX(-' + translate + 'px)'
         });
       }
       return style;
     };
 
     _this.getHolderStyle = function () {
-      var width = void 0;
-      var visibleMultiplier = _this.props.visible + 1;
+      var _this$props2 = _this.props,
+          dotHolderHeight = _this$props2.dotHolderHeight,
+          dotHolderWidth = _this$props2.dotHolderWidth,
+          margin = _this$props2.margin,
+          visible = _this$props2.visible;
 
-      if (_this.state.direction === 'forwards') {
-        if (_this.props.active < _this.props.visible - 2) {
-          if (!_this.props.removeSmallDots) {
-            visibleMultiplier -= 1;
-          }
-          width = _this.props.dotHolderWidth * visibleMultiplier + (_this.props.visible + 1) * _this.props.margin * 2;
-        } else {
-          width = _this.props.dotHolderWidth * visibleMultiplier + visibleMultiplier * _this.props.margin * 2;
-        }
-      } else if (_this.props.active < 3) {
-        if (!_this.props.removeSmallDots) {
-          visibleMultiplier -= 1;
-        }
-        width = _this.props.dotHolderWidth * visibleMultiplier + (_this.props.visible + 1) * _this.props.margin * 2;
-      } else {
-        width = _this.props.dotHolderWidth * visibleMultiplier + visibleMultiplier * _this.props.margin * 2;
-      }
-
-      return { height: _this.props.dotHolderHeight, width: width };
+      return {
+        height: dotHolderHeight,
+        width: (visible + 1) * (dotHolderWidth + margin * 2)
+      };
     };
 
     _this.getDotClassName = function (index) {
-      if (_this.state.bigDots.includes(index) || _this.props.removeSmallDots) {
+      var removeSmallDots = _this.props.removeSmallDots;
+      var bigDots = _this.state.bigDots;
+
+
+      if (bigDots.includes(index) || removeSmallDots) {
         return '';
       }
 
@@ -673,6 +733,13 @@ var ReactCarouselDots = function (_React$Component) {
     };
 
     _this.getDots = function () {
+      var _this$props3 = _this.props,
+          active = _this$props3.active,
+          length = _this$props3.length,
+          dotStyle = _this$props3.dotStyle,
+          activeStyle = _this$props3.activeStyle,
+          _onClick = _this$props3.onClick;
+
       var dots = [];
 
       var _loop = function _loop(i) {
@@ -683,24 +750,25 @@ var ReactCarouselDots = function (_React$Component) {
             style: _this.getDotStyle(),
             className: 'dot-holder',
             onClick: function onClick() {
-              return _this.props.onClick(i);
+              return _onClick(i);
             },
             onKeyPress: function onKeyPress() {
-              return _this.props.onClick(i);
+              return _onClick(i);
             },
             tabIndex: 0
           },
           _react2.default.createElement('div', {
             key: i + '-inner',
-            className: 'react-carousel-dots-dot\n                      ' + _this.getDotClassName(i) + '\n                      ' + (_this.props.active === i ? 'active' : ''),
-            style: _extends({}, _this.props.dotStyle, _this.props.active === i && _extends({}, _this.props.activeStyle))
+            className: 'react-carousel-dots-dot\n                        ' + _this.getDotClassName(i) + '\n                        ' + (active === i ? 'active' : ''),
+            style: _extends({}, dotStyle, active === i && _extends({}, activeStyle))
           })
         ));
       };
 
-      for (var i = 0; i < _this.props.length; i += 1) {
+      for (var i = 0; i < length; i += 1) {
         _loop(i);
       }
+
       return dots;
     };
 
@@ -717,9 +785,14 @@ var ReactCarouselDots = function (_React$Component) {
   _createClass(ReactCarouselDots, [{
     key: 'render',
     value: function render() {
+      var className = this.props.className;
+
       return _react2.default.createElement(
         'div',
-        { style: this.getHolderStyle(), className: 'react-carousel-dots-holder ' + this.props.className },
+        {
+          style: this.getHolderStyle(),
+          className: 'react-carousel-dots-holder ' + className
+        },
         this.getDots()
       );
     }
@@ -727,6 +800,21 @@ var ReactCarouselDots = function (_React$Component) {
 
   return ReactCarouselDots;
 }(_react2.default.Component);
+
+exports.default = ReactCarouselDots;
+
+
+ReactCarouselDots.defaultProps = {
+  margin: 1,
+  visible: 5,
+  className: '',
+  onClick: function onClick() {},
+  dotStyle: {},
+  activeStyle: {},
+  dotHolderHeight: 16,
+  dotHolderWidth: 16,
+  removeSmallDots: false
+};
 
 ReactCarouselDots.propTypes = {
   length: _propTypes2.default.number.isRequired,
@@ -741,18 +829,6 @@ ReactCarouselDots.propTypes = {
   dotHolderWidth: _propTypes2.default.number,
   removeSmallDots: _propTypes2.default.bool
 };
-ReactCarouselDots.defaultProps = {
-  margin: 1,
-  visible: 5,
-  className: '',
-  onClick: function onClick() {},
-  dotStyle: {},
-  activeStyle: {},
-  dotHolderHeight: 16,
-  dotHolderWidth: 16,
-  removeSmallDots: false
-};
-exports.default = ReactCarouselDots;
 
 /***/ }),
 /* 8 */
@@ -763,7 +839,7 @@ exports = module.exports = __webpack_require__(9)(false);
 
 
 // module
-exports.push([module.i, ".react-carousel-dots-holder{\n    display:flex;\n    align-items:center;\n    overflow:hidden;\n    transition:all 0.5s ease;\n}\n\n.react-carousel-dots-dot{\n    width:100%;\n    height:100%;\n    border-radius:50%;\n    background-color:white;\n    border:1px solid black;\n    flex-shrink:0;\n    box-sizing:border-box;\n    transition:transform 0.5s ease;\n\n}\n\n.react-carousel-dots-dot.active{\n    background-color:black;\n}\n\n.dot-holder{\n    flex-shrink:0;\n    transition:transform 0.5s ease;\n}\n.react-carousel-dots-dot.small{\n    transform:scale(0.5);\n}\n", ""]);
+exports.push([module.i, ".react-carousel-dots-holder {\n  display: flex;\n  align-items: center;\n  overflow: hidden;\n  transition: all 0.5s ease;\n}\n\n.react-carousel-dots-dot {\n  width: 100%;\n  height: 100%;\n  border-radius: 50%;\n  background-color: white;\n  border: 1px solid black;\n  flex-shrink: 0;\n  box-sizing: border-box;\n  transition: transform 0.5s ease;\n}\n\n.react-carousel-dots-dot.active {\n  background-color: black;\n}\n\n.dot-holder {\n  flex-shrink: 0;\n  transition: transform 0.5s ease;\n}\n.react-carousel-dots-dot.small {\n  transform: scale(0.7);\n}\n", ""]);
 
 // exports
 
