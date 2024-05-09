@@ -1,6 +1,6 @@
 {
   "name": "react-carousel-dots",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "This component provides a pagination method with dots for any amount of images/slides.",
   "keywords": [
     "react",
@@ -12,9 +12,9 @@
   ],
   "license": "MIT",
   "homepage": "https://github.com/fulopdaniel/react-carousel-dots",
-  "repository" :
-  { "type" : "git"
-  , "url" : "https://github.com/fulopdaniel/react-carousel-dots.git"
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/fulopdaniel/react-carousel-dots.git"
   },
   "main": "build/index.js",
   "peerDependencies": {
@@ -35,6 +35,8 @@
     "email": "fulop.dani96@gmail.com"
   },
   "devDependencies": {
+    "@babel/core": "^7.24.4",
+    "@babel/preset-env": "^7.24.4",
     "babel-cli": "^6.26.0",
     "babel-core": "^6.26.3",
     "babel-eslint": "^8.2.3",
@@ -50,6 +52,7 @@
     "eslint-plugin-import": "^2.11.0",
     "eslint-plugin-jsx-a11y": "^6.0.3",
     "eslint-plugin-react": "^7.7.0",
-    "style-loader": "^0.21.0"
+    "style-loader": "^0.21.0",
+    "webpack": "^2.7.0"
   }
 }
