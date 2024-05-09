@@ -652,7 +652,7 @@ var ReactCarouselDots = function (_React$Component) {
       return newBigDots;
     };
 
-    _this.getDotStyle = function () {
+    _this.getDotStyle = function (index, dotClassName) {
       var _this$props = _this.props,
           active = _this$props.active,
           dotHolderHeight = _this$props.dotHolderHeight,
@@ -704,6 +704,19 @@ var ReactCarouselDots = function (_React$Component) {
           transform: 'translateX(-' + translate + 'px)'
         });
       }
+
+      if (dotClassName === 'small') {
+        if (index <= active) {
+          style = _extends({}, style, {
+            justifyContent: 'right'
+          });
+        } else {
+          style = _extends({}, style, {
+            justifyContent: 'left'
+          });
+        }
+      }
+
       return style;
     };
 
@@ -713,6 +726,7 @@ var ReactCarouselDots = function (_React$Component) {
           dotHolderWidth = _this$props2.dotHolderWidth,
           margin = _this$props2.margin,
           visible = _this$props2.visible;
+
 
       return {
         height: dotHolderHeight,
@@ -737,17 +751,25 @@ var ReactCarouselDots = function (_React$Component) {
           active = _this$props3.active,
           length = _this$props3.length,
           dotStyle = _this$props3.dotStyle,
+          smallDotStyle = _this$props3.smallDotStyle,
           activeStyle = _this$props3.activeStyle,
           _onClick = _this$props3.onClick;
 
       var dots = [];
 
       var _loop = function _loop(i) {
+        var dotClassName = _this.getDotClassName(i);
+        var cumulativeDotStyle = _extends({}, dotStyle, active === i && _extends({}, activeStyle));
+
+        if (dotClassName === 'small') {
+          cumulativeDotStyle = _extends({}, cumulativeDotStyle, smallDotStyle);
+        }
+
         dots.push(_react2.default.createElement(
           'div',
           {
             key: i,
-            style: _this.getDotStyle(),
+            style: _this.getDotStyle(i, dotClassName),
             className: 'dot-holder',
             onClick: function onClick() {
               return _onClick(i);
@@ -759,8 +781,8 @@ var ReactCarouselDots = function (_React$Component) {
           },
           _react2.default.createElement('div', {
             key: i + '-inner',
-            className: 'react-carousel-dots-dot\n                        ' + _this.getDotClassName(i) + '\n                        ' + (active === i ? 'active' : ''),
-            style: _extends({}, dotStyle, active === i && _extends({}, activeStyle))
+            className: 'react-carousel-dots-dot\n                        ' + dotClassName + '\n                        ' + (active === i ? 'active' : ''),
+            style: cumulativeDotStyle
           })
         ));
       };
@@ -810,6 +832,7 @@ ReactCarouselDots.defaultProps = {
   className: '',
   onClick: function onClick() {},
   dotStyle: {},
+  smallDotStyle: {},
   activeStyle: {},
   dotHolderHeight: 16,
   dotHolderWidth: 16,
@@ -824,6 +847,7 @@ ReactCarouselDots.propTypes = {
   className: _propTypes2.default.string,
   onClick: _propTypes2.default.func,
   dotStyle: _propTypes2.default.object,
+  smallDotStyle: _propTypes2.default.object,
   activeStyle: _propTypes2.default.object,
   dotHolderHeight: _propTypes2.default.number,
   dotHolderWidth: _propTypes2.default.number,
@@ -839,7 +863,7 @@ exports = module.exports = __webpack_require__(9)(false);
 
 
 // module
-exports.push([module.i, ".react-carousel-dots-holder {\n  display: flex;\n  align-items: center;\n  overflow: hidden;\n  transition: all 0.5s ease;\n}\n\n.react-carousel-dots-dot {\n  width: 100%;\n  height: 100%;\n  border-radius: 50%;\n  background-color: white;\n  border: 1px solid black;\n  flex-shrink: 0;\n  box-sizing: border-box;\n  transition: transform 0.5s ease;\n}\n\n.react-carousel-dots-dot.active {\n  background-color: black;\n}\n\n.dot-holder {\n  flex-shrink: 0;\n  transition: transform 0.5s ease;\n}\n.react-carousel-dots-dot.small {\n  transform: scale(0.7);\n}\n", ""]);
+exports.push([module.i, ".react-carousel-dots-holder {\n  display: flex;\n  align-items: center;\n  overflow: hidden;\n  transition: all 0.5s ease;\n}\n\n.react-carousel-dots-dot {\n  width: 100%;\n  height: 100%;\n  border-radius: 50%;\n  background-color: white;\n  border: 1px solid black;\n  flex-shrink: 0;\n  box-sizing: border-box;\n  transition: transform 0.5s ease;\n}\n\n.react-carousel-dots-dot.active {\n  background-color: black;\n}\n\n.dot-holder {\n  flex-shrink: 0;\n  transition: transform 0.5s ease;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n}\n.react-carousel-dots-dot.small {\n  transform: scale(0.7);\n}\n", ""]);
 
 // exports
 

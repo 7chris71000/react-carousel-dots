@@ -23,6 +23,9 @@
 .dot-holder {
   flex-shrink: 0;
   transition: transform 0.5s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 .react-carousel-dots-dot.small {
   transform: scale(0.7);

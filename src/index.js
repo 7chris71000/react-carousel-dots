@@ -280,7 +280,7 @@ class ReactCarouselDots extends React.Component {
     return newBigDots;
   };
 
-  getDotStyle = () => {
+  getDotStyle = (index, dotClassName) => {
     const {
       active, dotHolderHeight, dotHolderWidth, margin, length, visible,
     } =
@@ -343,6 +343,21 @@ class ReactCarouselDots extends React.Component {
         transform: `translateX(-${translate}px)`,
       };
     }
+
+    if (dotClassName === 'small') {
+      if (index <= active) {
+        style = {
+          ...style,
+          justifyContent: 'right',
+        };
+      } else {
+        style = {
+          ...style,
+          justifyContent: 'left',
+        };
+      }
+    }
+
     return style;
   };
 
@@ -350,6 +365,7 @@ class ReactCarouselDots extends React.Component {
     const {
       dotHolderHeight, dotHolderWidth, margin, visible,
     } = this.props;
+
     return {
       height: dotHolderHeight,
       width: (visible + 1) * (dotHolderWidth + margin * 2),
@@ -369,13 +385,29 @@ class ReactCarouselDots extends React.Component {
 
   getDots = () => {
     const {
-      active, length, dotStyle, activeStyle, onClick,
-    } = this.props;
+      active, length, dotStyle, smallDotStyle, activeStyle, onClick,
+    } =
+      this.props;
     const dots = [];
     for (let i = 0; i < length; i += 1) {
+      const dotClassName = this.getDotClassName(i);
+      let cumulativeDotStyle = {
+        ...dotStyle,
+        ...(active === i && {
+          ...activeStyle,
+        }),
+      };
+
+      if (dotClassName === 'small') {
+        cumulativeDotStyle = {
+          ...cumulativeDotStyle,
+          ...smallDotStyle,
+        };
+      }
+
       dots.push(<div
         key={i}
-        style={this.getDotStyle()}
+        style={this.getDotStyle(i, dotClassName)}
         className="dot-holder"
         onClick={() => onClick(i)}
         onKeyPress={() => onClick(i)}
@@ -384,14 +416,9 @@ class ReactCarouselDots extends React.Component {
         <div
           key={`${i}-inner`}
           className={`react-carousel-dots-dot
-                        ${this.getDotClassName(i)}
+                        ${dotClassName}
                         ${active === i ? 'active' : ''}`}
-          style={{
-              ...dotStyle,
-              ...(active === i && {
-                ...activeStyle,
-              }),
-            }}
+          style={cumulativeDotStyle}
         />
                 </div>);
     }
@@ -420,6 +447,7 @@ ReactCarouselDots.defaultProps = {
   className: '',
   onClick: () => {},
   dotStyle: {},
+  smallDotStyle: {},
   activeStyle: {},
   dotHolderHeight: 16,
   dotHolderWidth: 16,
@@ -434,6 +462,7 @@ ReactCarouselDots.propTypes = {
   className: PropTypes.string,
   onClick: PropTypes.func,
   dotStyle: PropTypes.object,
+  smallDotStyle: PropTypes.object,
   activeStyle: PropTypes.object,
   dotHolderHeight: PropTypes.number,
   dotHolderWidth: PropTypes.number,
