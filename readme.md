@@ -23,6 +23,7 @@ The minimum amount of code to make it work:
 | className       | ''            | Optional. This class will be added to the holder div.                                                                       |
 | onClick         | () => {}      | Optional. A function that will be called when a dot is clicked. The index of the clicked dot will be passed as an argument. |
 | dotStyle        | {}            | Optional. An object with css properties that will be applied to all dots.                                                   |
+| smallDotStyle   | {}            | Optional. An object with css properties that will be applied to small dots.                                                 |
 | activeStyle     | {}            | Optional. An object with css properties that will be applied to the active dot.                                             |
 | dotHolderHeight | 16            | Optional. The height of the holder div.                                                                                     |
 | dotHolderWidth  | 16            | Optional. The width of the holder div.                                                                                      |
